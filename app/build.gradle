@@ -34,6 +34,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.0.0'
     compile 'com.roger.catloadinglibrary:catloadinglibrary:1.0.1'
     compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
 
 }
 repositories {
