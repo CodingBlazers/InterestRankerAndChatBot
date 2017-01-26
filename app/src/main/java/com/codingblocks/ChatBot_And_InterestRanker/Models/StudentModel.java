@@ -1,7 +1,11 @@
-package com.codingblocks.ChatBot_And_InterestRanker;
+package com.codingblocks.ChatBot_And_InterestRanker.Models;
 
 /**
  * Created by Sachin on 9/3/2016.
+ */
+
+/*
+Model class for Student
  */
 public class StudentModel {
     int id;

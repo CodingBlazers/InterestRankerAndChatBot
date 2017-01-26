@@ -1,6 +1,5 @@
-package com.codingblocks.ChatBot_And_InterestRanker;
+package com.codingblocks.ChatBot_And_InterestRanker.Activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.BatchTable;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.MyDatabase;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.StudentTable;
+import com.codingblocks.ChatBot_And_InterestRanker.Models.BatchModel;
 import com.codingblocks.customnavigationdrawer.R;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
@@ -27,6 +27,10 @@ import java.util.List;
 
 /**
  * Created by HIman$hu on 8/6/2016.
+ */
+
+/*
+This activity shows a list of present batches of students and allow user to add or delete student batches.
  */
 
 public class StudentBatches extends AppCompatActivity {

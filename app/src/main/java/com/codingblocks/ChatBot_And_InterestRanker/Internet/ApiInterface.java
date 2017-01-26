@@ -1,4 +1,6 @@
-package com.codingblocks.ChatBot_And_InterestRanker;
+package com.codingblocks.ChatBot_And_InterestRanker.Internet;
+
+import com.codingblocks.ChatBot_And_InterestRanker.Models.CourseDescription;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import retrofit2.http.Query;
  */
 public interface ApiInterface {
 
-
     @GET("topics.php")
     Call<List<CourseDescription>> getDetails(@Query("user") String userNames);
+
 }

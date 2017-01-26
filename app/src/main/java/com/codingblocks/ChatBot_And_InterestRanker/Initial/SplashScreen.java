@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.codingblocks.ChatBot_And_InterestRanker.StudentBatches;
+import com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentBatches;
 
 public class SplashScreen extends AppCompatActivity {
 

@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
 
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.StudentNamesList" />
+        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentNamesList" />
         <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.ChatbotFiles.ChatActivity"></activity>
 
         <activity
@@ -26,11 +26,11 @@
         </activity>
 
 
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.StudentsInterestList" />
+        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentsInterestList" />
         <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.SpeechToText.STT"></activity>
         <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.SpeechToText.SttDisplay"></activity>
         <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Initial.MainScreen"></activity>
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.StudentBatches"></activity>
+        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentBatches"></activity>
         <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.GamePart.AnswerActivity"></activity>
         <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.GamePart.GameInitActivity"></activity>
         <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.GamePart.Question"></activity>
