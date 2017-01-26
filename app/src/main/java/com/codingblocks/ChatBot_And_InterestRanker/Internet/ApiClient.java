@@ -1,8 +1,6 @@
-package com.codingblocks.ChatBot_And_InterestRanker;
+package com.codingblocks.ChatBot_And_InterestRanker.Internet;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.internal.Streams;
+import com.codingblocks.ChatBot_And_InterestRanker.Internet.ApiInterface;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +11,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by HIman$hu on 9/4/2016.
  */
+
+/*
+Following class creates an ApiClient for Retrofit for calls to server.
+ */
+
 public class ApiClient {
     private static ApiInterface mService;
     private static String baseUrl = "https://interests-ranker.herokuapp.com/";

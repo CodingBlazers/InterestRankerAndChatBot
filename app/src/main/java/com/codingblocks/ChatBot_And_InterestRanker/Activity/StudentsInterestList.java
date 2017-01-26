@@ -1,15 +1,16 @@
-package com.codingblocks.ChatBot_And_InterestRanker;
+package com.codingblocks.ChatBot_And_InterestRanker.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.codingblocks.ChatBot_And_InterestRanker.Internet.ApiClient;
+import com.codingblocks.ChatBot_And_InterestRanker.Models.CourseDescription;
 import com.codingblocks.customnavigationdrawer.R;
 
 import java.util.ArrayList;
@@ -18,6 +19,10 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+/*
+This activity shows the list of common interests of students of a batch.
+ */
 
 public class StudentsInterestList extends AppCompatActivity {
 
@@ -39,10 +44,10 @@ public class StudentsInterestList extends AppCompatActivity {
         Log.i("UserNames", user_names);
         courseDetails = (ListView) findViewById(R.id.courseDetail);
         dataList = new ArrayList<>();
-        Call<List<CourseDescription>> Course_Description = ApiClient.getInterface().getDetails(user_names);
-        Log.i("URLCalled", String.valueOf(Course_Description.request().url()));
+        Call<List<CourseDescription>> courseDescription = ApiClient.getInterface().getDetails(user_names);
+        Log.i("URLCalled", String.valueOf(courseDescription.request().url()));
 
-        Course_Description.enqueue(new Callback<List<CourseDescription>>() {
+        courseDescription.enqueue(new Callback<List<CourseDescription>>() {
             @Override
             public void onResponse(Call<List<CourseDescription>> call, Response<List<CourseDescription>> response) {
                 if (response.isSuccessful()) {

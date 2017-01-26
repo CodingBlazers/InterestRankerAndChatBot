@@ -1,4 +1,4 @@
-package com.codingblocks.ChatBot_And_InterestRanker;
+package com.codingblocks.ChatBot_And_InterestRanker.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentsInterestList;
 import com.codingblocks.customnavigationdrawer.R;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by HIman$hu on 9/4/2016.
  */
+
 public class ExpandableTvRecyclerAdapter extends RecyclerView.Adapter<ExpandableTvRecyclerAdapter.RecyclerViewHolder> {
 
     Context context;

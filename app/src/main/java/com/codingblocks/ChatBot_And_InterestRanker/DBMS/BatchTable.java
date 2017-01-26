@@ -8,7 +8,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.codingblocks.ChatBot_And_InterestRanker.BatchModel;
+import com.codingblocks.ChatBot_And_InterestRanker.Models.BatchModel;
 
 import java.util.ArrayList;
 

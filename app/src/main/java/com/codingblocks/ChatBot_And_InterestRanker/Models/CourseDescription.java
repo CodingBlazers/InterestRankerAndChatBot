@@ -1,10 +1,13 @@
-package com.codingblocks.ChatBot_And_InterestRanker;
+package com.codingblocks.ChatBot_And_InterestRanker.Models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by HIman$hu on 9/4/2016.
+ */
+/*
+Model class for Course Description
  */
 public class CourseDescription implements Serializable {
 

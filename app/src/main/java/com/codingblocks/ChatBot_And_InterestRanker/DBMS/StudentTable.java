@@ -9,14 +9,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.codingblocks.ChatBot_And_InterestRanker.StudentModel;
+import com.codingblocks.ChatBot_And_InterestRanker.Models.StudentModel;
 
 import java.util.ArrayList;
 
-
-/**
- * Created by championswimmer on 30/12/15.
- */
 public class StudentTable {
     public static final String TABLE_NAME = "Student";
 
