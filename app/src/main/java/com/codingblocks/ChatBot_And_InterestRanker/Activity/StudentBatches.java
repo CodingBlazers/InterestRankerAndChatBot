@@ -15,11 +15,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.codingblocks.ChatBot_And_InterestRanker.Constants;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.BatchTable;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.MyDatabase;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.StudentTable;
 import com.codingblocks.ChatBot_And_InterestRanker.Models.BatchModel;
-import com.codingblocks.customnavigationdrawer.R;
+import com.codingblocks.eventerest.R;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -33,11 +34,11 @@ import java.util.List;
 This activity shows a list of present batches of students and allow user to add or delete student batches.
  */
 
-public class StudentBatches extends AppCompatActivity {
+public class StudentBatches extends AppCompatActivity implements Constants{
 
     String m_Text;
-    ListView batches_list_view;
-    List<String> dataList1;
+    ListView batchesListView;
+    List<String> batchesList;
     ArrayAdapter<String> adapter;
     BatchModel batchModel;
     EditText editText;
@@ -46,23 +47,21 @@ public class StudentBatches extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_batches);
-        setTitle("Add Batch Name");
-        batches_list_view = (ListView) findViewById(R.id.Batches_List_View);
+        setContentView(R.layout.activity_all_batches);
+        setTitle(TITLE_STUDENT_BATCHES);
+        batchesListView = (ListView) findViewById(R.id.batches_list_view);
 
-        dataList1 = new ArrayList<>();
+        batchesList = new ArrayList<>();
 
         final SQLiteDatabase db = MyDatabase.getInstance(StudentBatches.this).getReadableDatabase();
-        final ArrayList<BatchModel> batches_list = BatchTable.getByArg(db);
+        final ArrayList<BatchModel> batchesListDB = BatchTable.getByArg(db);
         db.close();
-        if (batches_list == null) {
-
-        } else {
-            for (int i = 0; i < batches_list.size(); i++) {
-                dataList1.add(/*batches_list.get(i).getId() + " " +*/ batches_list.get(i).getBatch_name());
+        if (batchesListDB != null) {
+            for (int i = 0; i < batchesListDB.size(); i++) {
+                batchesList.add(/*batchesListDB.get(i).getId() + " " +*/ batchesListDB.get(i).getBatch_name());
             }
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataList1);
-            batches_list_view.setAdapter(adapter);
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, batchesList);
+            batchesListView.setAdapter(adapter);
         }
 
         FloatingActionButton fab = new FloatingActionButton.Builder(this)
@@ -86,17 +85,17 @@ public class StudentBatches extends AppCompatActivity {
 
                         m_Text = editText.getText().toString();
 
-                        if (dataList1.contains(m_Text)) {
+                        if (batchesList.contains(m_Text)) {
                             Toast.makeText(StudentBatches.this, "Batch is already added in record", Toast.LENGTH_SHORT).show();
                         }
 
                         else {
 
-                            dataList1.add(m_Text);
+                            batchesList.add(m_Text);
                             adapter.notifyDataSetChanged();
 
-                            //adapter = new ArrayAdapter<List<String>>(StudentBatches.this, android.R.layout.simple_list_item_1, dataList1);
-                            //batches_list_view.setAdapter(adapter);//After this step you should be able to see the data in your list view.
+                            //adapter = new ArrayAdapter<List<String>>(StudentBatches.this, android.R.layout.simple_list_item_1, batchesList);
+                            //batchesListView.setAdapter(adapter);//After this step you should be able to see the data in your list view.
 
                             batchModel = new BatchModel(m_Text);
                             //batchModel = new BatchModel(m_Text);
@@ -120,7 +119,7 @@ public class StudentBatches extends AppCompatActivity {
             }
         });
 
-        batches_list_view.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        batchesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(StudentBatches.this);
@@ -131,8 +130,8 @@ public class StudentBatches extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
 
-                        String batchName_toBeRemoved = dataList1.get(position);
-                        dataList1.remove(batchName_toBeRemoved);
+                        String batchName_toBeRemoved = batchesList.get(position);
+                        batchesList.remove(batchName_toBeRemoved);
                         adapter.notifyDataSetChanged();
 
                         final SQLiteDatabase db = MyDatabase.getInstance(StudentBatches.this).getWritableDatabase();
@@ -151,14 +150,14 @@ public class StudentBatches extends AppCompatActivity {
             }
         });
 
-        batches_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        batchesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Log.i("Batch_ID_InBatch", position + "");
                 Intent intent = new Intent();
                 intent.setClass(StudentBatches.this, StudentNamesList.class);
-                intent.putExtra("Batch_Name", dataList1.get(position).toString()/*adapter.getItem(position).toString()*/);
+                intent.putExtra(INTENT_BATCH_NAME, batchesList.get(position).toString());
                 startActivity(intent);
             }
         });

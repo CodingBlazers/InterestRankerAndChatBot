@@ -14,8 +14,10 @@ public class MyDatabase extends SQLiteOpenHelper {
     public static final String DB_NAME = "Teacher.db";
     public static final int DB_VER = 1;
 
-    //SQLite database implements foreign keys, but you have to enable them each time you open the database ,
-    //to modify it.
+    /*
+    SQLite database implements foreign keys, but you have to enable them each time you open the database ,
+    to modify it.
+    */
     public static final String CMD_ENABLE_FOREIGN_KEYS = "PRAGMA foreign_keys = ON;";
 
     public static MyDatabase getInstance (Context c) {
@@ -45,7 +47,7 @@ public class MyDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(BatchTable.CMD_CREATE_TABLE);
         db.execSQL(StudentTable.CMD_CREATE_TABLE);
-
+        db.execSQL(ExpenditureTable.CMD_CREATE_TABLE);
     }
 
     @Override

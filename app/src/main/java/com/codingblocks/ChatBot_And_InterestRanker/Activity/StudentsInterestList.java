@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import com.codingblocks.ChatBot_And_InterestRanker.Internet.ApiClient;
 import com.codingblocks.ChatBot_And_InterestRanker.Models.CourseDescription;
-import com.codingblocks.customnavigationdrawer.R;
+import com.codingblocks.eventerest.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +26,10 @@ This activity shows the list of common interests of students of a batch.
 
 public class StudentsInterestList extends AppCompatActivity {
 
-
     ListView courseDetails;
     List<String> dataList;
     ArrayAdapter<String> courseAdapter;
     ProgressDialog progressDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

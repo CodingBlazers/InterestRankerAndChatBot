@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentNamesList;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.MyDatabase;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.StudentTable;
-import com.codingblocks.customnavigationdrawer.R;
+import com.codingblocks.eventerest.R;
 
 import java.util.List;
 

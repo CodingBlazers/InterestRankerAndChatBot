@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentsInterestList;
-import com.codingblocks.customnavigationdrawer.R;
+import com.codingblocks.eventerest.R;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.util.ArrayList;

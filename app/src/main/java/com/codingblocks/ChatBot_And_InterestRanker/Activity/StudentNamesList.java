@@ -20,11 +20,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.codingblocks.ChatBot_And_InterestRanker.Constants;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.MyDatabase;
 import com.codingblocks.ChatBot_And_InterestRanker.DBMS.StudentTable;
 import com.codingblocks.ChatBot_And_InterestRanker.Models.StudentModel;
 import com.codingblocks.ChatBot_And_InterestRanker.Adapters.RecyclerAdapter;
-import com.codingblocks.customnavigationdrawer.R;
+import com.codingblocks.eventerest.R;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
@@ -39,7 +40,7 @@ This activity corresponds to the list of present students in a batch (User choos
 allow him to add or delete student to the batch.
  */
 
-public class StudentNamesList extends AppCompatActivity {
+public class StudentNamesList extends AppCompatActivity implements Constants{
 
     RecyclerView recyclerView;
 
@@ -48,11 +49,10 @@ public class StudentNamesList extends AppCompatActivity {
     List<String> student_names;
     List<String> user_id_list;
     RecyclerAdapter adapter;
-    //int batch_id;
-    String batch_name;
     ProgressDialog progressDialog;
     public String UserNames;
     public static  Context m_context;
+    String batchName;
 
 
     public StudentNamesList() {
@@ -63,40 +63,43 @@ public class StudentNamesList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_student_list_recycler_view);
         setTitle("Students List");
 
         user_id_list = new ArrayList<>();
 
         final Intent intent = getIntent();
-        batch_name = intent.getStringExtra("Batch_Name");
-        Log.i("BatchID_inStudentNames", batch_name + "");
+        batchName = intent.getStringExtra(INTENT_BATCH_NAME);
+        Log.i("BatchID_inStudentNames", batchName + "");
         refresh();
 
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setBackgroundDrawable(R.drawable.fab)
-                //.setContentView(icon)
                 .build();
 
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
 
-        ImageView ItemIconOne = new ImageView(this);
-        ItemIconOne.setImageDrawable(getDrawable(R.drawable.add_student));
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
+        ImageView itemIconOne = new ImageView(this);
+        itemIconOne.setImageDrawable(getDrawable(R.drawable.add_student));
 
-        ImageView ItemIconTwo = new ImageView(this);
-        ItemIconTwo.setImageDrawable(getDrawable(R.drawable.analyse));
-        SubActionButton button1 = itemBuilder.setContentView(ItemIconOne).setLayoutParams(new FrameLayout.LayoutParams(250, 250)).build();
-        SubActionButton button2 = itemBuilder.setContentView(ItemIconTwo).build();
+        ImageView itemIconTwo = new ImageView(this);
+        itemIconTwo.setImageDrawable(getDrawable(R.drawable.analyse));
+
+        ImageView itemIconThree = new ImageView(this);
+        itemIconThree.setImageDrawable(getDrawable(R.drawable.payment));
+
+        SubActionButton buttonAddStudent = itemBuilder.setContentView(itemIconOne).setLayoutParams(new FrameLayout.LayoutParams(150, 150)).build();
+        SubActionButton buttonViewInterest = itemBuilder.setContentView(itemIconTwo).setLayoutParams(new FrameLayout.LayoutParams(150, 150)).build();
+        SubActionButton buttonManageExpenditure = itemBuilder.setContentView(itemIconThree).setLayoutParams(new FrameLayout.LayoutParams(150, 150)).build();
 
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(button1)
-                .addSubActionView(button2)
+                .addSubActionView(buttonAddStudent)
+                .addSubActionView(buttonViewInterest)
+                .addSubActionView(buttonManageExpenditure)
                 .attachTo(actionButton)
                 .build();
 
-        button1.setOnClickListener(new View.OnClickListener() {
+        buttonAddStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(StudentNamesList.this);
@@ -125,8 +128,7 @@ public class StudentNamesList extends AppCompatActivity {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        studentModel = new StudentModel(user_name.getText().toString(), user_id.getText().toString(), batch_name);
+                        studentModel = new StudentModel(user_name.getText().toString(), user_id.getText().toString(), batchName);
                         final SQLiteDatabase db = MyDatabase.getInstance(StudentNamesList.this).getWritableDatabase();
                         StudentTable.save(db, studentModel);
                         db.close();
@@ -144,11 +146,9 @@ public class StudentNamesList extends AppCompatActivity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
+        buttonViewInterest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                ShowProgressDialog();
 
                 UserNames = "";
                 for (int i = 0; i < user_id_list.size(); i++) {
@@ -162,15 +162,18 @@ public class StudentNamesList extends AppCompatActivity {
 
             }
         });
+
+        buttonManageExpenditure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(StudentNamesList.this, ExpenditureManagement.class);
+                intent.putExtra(INTENT_BATCH_NAME, batchName);
+                startActivity(intent);
+            }
+        });
     }
 
-//    public void updateStudentNamesDatabase(int batch_ID){
-//
-//        SQLiteDatabase db1 = MyDatabase.getInstance(this).getWritableDatabase();
-//        StudentTable.deleteById(db1,batch_ID);
-//        db1.close();
-//
-//    }
     private void ShowProgressDialog() {
         if (progressDialog == null) {
             progressDialog = new ProgressDialog(StudentNamesList.this);
@@ -190,7 +193,7 @@ public class StudentNamesList extends AppCompatActivity {
     private void refresh() {
         student_names = new ArrayList<>();
         final SQLiteDatabase db = MyDatabase.getInstance(StudentNamesList.this).getReadableDatabase();
-        student_list = StudentTable.getByArg(db, batch_name);
+        student_list = StudentTable.getByArg(db, batchName);
         if (student_list == null) {
 
         } else {

@@ -19,6 +19,17 @@
     </string-array>
 
     <string name="title_student_batches">Batches</string>
-    <!--<string name="title_notes_sharing">Notes</string>-->
-    <!--<string name="title_home">Home</string>-->
+
+    <string name="hint_description">Description</string>
+    <string name="hint_type">Type</string>
+    <string name="hint_amount">Amount</string>
+
+
+
+
+    <string-array name="currency_type">
+        <item>Rupees</item>
+        <item>Dollars</item>
+        <item>Pounds</item>
+    </string-array>
 </resources>
