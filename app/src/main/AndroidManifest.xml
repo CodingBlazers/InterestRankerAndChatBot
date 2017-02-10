@@ -11,22 +11,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme">
-
         <activity
             android:name="com.codingblocks.ChatBot_And_InterestRanker.Initial.SplashScreen"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.EditExpenditure"></activity>
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.ExpenditureManagement"></activity>
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentBatches"></activity>
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentNamesList"></activity>
-        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentsInterestList"></activity>
-
+        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.EditExpenditure" />
+        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentNamesList" />
+        <activity android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.StudentsInterestList" />
+        <activity
+            android:name="com.codingblocks.ChatBot_And_InterestRanker.Activity.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/MyMaterialTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

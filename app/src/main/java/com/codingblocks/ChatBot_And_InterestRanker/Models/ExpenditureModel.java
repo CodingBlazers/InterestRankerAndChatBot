@@ -10,7 +10,6 @@ import java.util.ArrayList;
 public class ExpenditureModel implements Serializable{
 
     private int id;
-    String batchName;
     String description;
     String type;                        // Tell whether its to be paid, already paid, budget entry, payment entry or anything else
     double amountRecord;                // Note of the amount to be dealt
@@ -21,10 +20,9 @@ public class ExpenditureModel implements Serializable{
     ArrayList<String> names;            // Names of people with whom bill is to be splitted
     ArrayList<Double> splitAmounts;     // Amounts corresponding to various people
 
-    public ExpenditureModel(int id, String batchName, String description, String type, double amountRecord, String amountUnit, String date,
+    public ExpenditureModel(int id, String description, String type, double amountRecord, String amountUnit, String date,
             int split, String notes, String names, String splitAmounts){
         this.id = id;
-        this.batchName = batchName;
         this.description = description;
         this.type = type;
         this.amountRecord = amountRecord;
@@ -36,9 +34,8 @@ public class ExpenditureModel implements Serializable{
         this.splitAmounts = getDoubleArray(splitAmounts);
     }
 
-    public ExpenditureModel(String batchName, String description, String type, double amountRecord, String amountUnit, String date,
+    public ExpenditureModel(String description, String type, double amountRecord, String amountUnit, String date,
                             int split, String notes, String names, String splitAmounts){
-        this.batchName = batchName;
         this.description = description;
         this.type = type;
         this.amountRecord = amountRecord;
@@ -50,7 +47,7 @@ public class ExpenditureModel implements Serializable{
         this.splitAmounts = getDoubleArray(splitAmounts);
     }
 
-    private ArrayList<Double> getDoubleArray(String in) {
+    public static ArrayList<Double> getDoubleArray(String in) {
         if(in == null){
             return null;
         }
@@ -67,7 +64,7 @@ public class ExpenditureModel implements Serializable{
         return out;
     }
 
-    private ArrayList<String> getStringArray(String in) {
+    public static ArrayList<String> getStringArray(String in) {
         if(in == null){
             return null;
         }
@@ -84,7 +81,7 @@ public class ExpenditureModel implements Serializable{
         return out;
     }
 
-    private String stringArrayToString(ArrayList<String> in) {
+    public static String stringArrayToString(ArrayList<String> in) {
         if(in == null){
             return null;
         }
@@ -96,7 +93,7 @@ public class ExpenditureModel implements Serializable{
         return out.toString();
     }
 
-    private String intArrayToStrings(ArrayList<Double> in) {
+    public static String intArrayToStrings(ArrayList<Double> in) {
         if(in == null){
             return null;
         }
@@ -110,10 +107,6 @@ public class ExpenditureModel implements Serializable{
 
     public int getID(){
         return id;
-    }
-
-    public String getBatchName() {
-        return batchName;
     }
 
     public String getDescription() {

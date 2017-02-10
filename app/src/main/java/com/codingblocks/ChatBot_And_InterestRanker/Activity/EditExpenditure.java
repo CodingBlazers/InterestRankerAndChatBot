@@ -1,19 +1,29 @@
 package com.codingblocks.ChatBot_And_InterestRanker.Activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.codingblocks.ChatBot_And_InterestRanker.Constants;
+import com.codingblocks.ChatBot_And_InterestRanker.Fragments.ExpenditureManagement;
 import com.codingblocks.ChatBot_And_InterestRanker.Models.ExpenditureModel;
 import com.codingblocks.eventerest.R;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+
+import java.util.ArrayList;
 
 /**
  * Created by megha on 29/01/17.
@@ -21,9 +31,14 @@ import com.codingblocks.eventerest.R;
 
 public class EditExpenditure extends AppCompatActivity implements Constants {
 
-    Button positiveButton;
+    Button positiveButton, negativeButton;
     TextView descriptionTextView, typeTextView, amountTextView;
-    String batchName;
+    ListView notesListView;
+    Spinner amountUnitSpinner;
+
+    ExpenditureModel expenditureModel;
+    ArrayList<String> notes;
+    ArrayAdapter<String> notesAdapter;
     int id;
 
     @Override
@@ -34,11 +49,56 @@ public class EditExpenditure extends AppCompatActivity implements Constants {
         descriptionTextView = (TextView) findViewById(R.id.edit_description);
         typeTextView = (TextView) findViewById(R.id.edit_type);
         amountTextView = (TextView) findViewById(R.id.edit_amount);
+        notesListView = (ListView) findViewById(R.id.edit_notes_list_view);
+        amountUnitSpinner = (Spinner) findViewById(R.id.edit_amount_unit);
+
+        notes = new ArrayList<>();
+        notesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notes);
+        notesListView.setAdapter(notesAdapter);
+        notesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditExpenditure.this);
+                builder.setTitle("Add notes");
+                LayoutInflater inflater = getLayoutInflater();
+                View v = inflater.inflate(R.layout.dialog_add_notes, null);
+                final EditText notesTextView = (EditText) v.findViewById(R.id.note_edit_text);
+                notesTextView.setText(notes.get(position));
+                builder.setView(v);
+                builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        notes.set(position, notesTextView.getText().toString());
+                        notesAdapter.notifyDataSetChanged();
+                    }
+                });
+                builder.setNeutralButton("DELETE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        notes.remove(position);
+                        notesAdapter.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.create().show();
+            }
+        });
 
         Intent passedIntent = getIntent();
-        batchName = passedIntent.getStringExtra(INTENT_BATCH_NAME);
         try{
-            id = getIntent().getIntExtra(INTENT_EDITING_EXPENDITURE_ID, -1);
+            expenditureModel = (ExpenditureModel) passedIntent.getSerializableExtra(INTENT_EDITED_EXPENDITURE_ITEM);
+            id = expenditureModel.getID();
+            descriptionTextView.setText(expenditureModel.getDescription());
+            typeTextView.setText(expenditureModel.getType());
+            amountTextView.setText(expenditureModel.getAmountRecord() + "");
+            if(expenditureModel.getNotes() != null) {
+                for (String s : expenditureModel.getNotes()) {
+                    notes.add(s);
+                }
+            }
         }
         catch (Exception e){
             id = -1;
@@ -54,23 +114,59 @@ public class EditExpenditure extends AppCompatActivity implements Constants {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ExpenditureModel expenditureModel = new ExpenditureModel(
+                ExpenditureModel resultExpenditureModel = new ExpenditureModel(
                         id,
-                        batchName,
                         descriptionTextView.getText().toString(),
                         typeTextView.getText().toString(),
                         Double.parseDouble(amountTextView.getText().toString()),
-                        "Rs.",
+                        amountUnitSpinner.getSelectedItem().toString(),
                         "01-01-2017",
                         1,
-                        null,
+                        ExpenditureModel.stringArrayToString(notes),
                         null,
                         null );
                 Intent resultIntent = new Intent(EditExpenditure.this, ExpenditureManagement.class);
-                resultIntent.putExtra(INTENT_EDITED_EXPENDITURE_ITEM, expenditureModel);
+                resultIntent.putExtra(INTENT_EDITED_EXPENDITURE_ITEM, resultExpenditureModel);
                 resultIntent.putExtra(INTENT_EDITING_EXPENDITURE_ID, id);
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
+            }
+        });
+
+        negativeButton = (Button) findViewById(R.id.edit_expenditure_negative);
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resultIntent = new Intent(EditExpenditure.this, ExpenditureManagement.class);
+                setResult(Activity.RESULT_CANCELED, resultIntent);
+                finish();
+            }
+        });
+
+        FloatingActionButton fab = new FloatingActionButton.Builder(this)
+                .setBackgroundDrawable(R.drawable.fab)
+                .build();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditExpenditure.this);
+                builder.setTitle("Add notes");
+                LayoutInflater inflater = getLayoutInflater();
+                View v = inflater.inflate(R.layout.dialog_add_notes, null);
+                final EditText notesTextView = (EditText) v.findViewById(R.id.note_edit_text);
+                builder.setView(v);
+                builder.setPositiveButton("DONE", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        notes.add(notesTextView.getText().toString());
+                        notesAdapter.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {}
+                });
+                builder.create().show();
             }
         });
     }

@@ -17,7 +17,6 @@ public class ExpenditureTable {
     
     public static final String TABLE_NAME = "EXPENDITURE";
     public static final String ID = "EXPENDITURE_ID";
-    public static final String BATCH_NAME = "BATCH_NAME";
     public static final String DESCRIPTION = "DESCRIPTION";
     public static final String TYPE = "TYPE";
     public static final String AMOUNT = "AMOUNT";
@@ -28,12 +27,11 @@ public class ExpenditureTable {
     public static final String NAMES = "NAMES";
     public static final String SPLIT_AMOUNTS = "SPLIT_AMOUNTS";
 
-    private static final String[] COLUMNS = {ID, BATCH_NAME, DESCRIPTION, TYPE, AMOUNT, AMOUNT_UNIT, DATE, SPLIT, NOTES, NAMES, SPLIT_AMOUNTS};
+    private static final String[] COLUMNS = {ID, DESCRIPTION, TYPE, AMOUNT, AMOUNT_UNIT, DATE, SPLIT, NOTES, NAMES, SPLIT_AMOUNTS};
 
     public static final String CMD_CREATE_TABLE =
             " CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( "
                     + ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , "
-                    + BATCH_NAME + " TEXT,"
                     + DESCRIPTION + " TEXT,"
                     + TYPE + " TEXT,"
                     + AMOUNT + " DOUBLE,"
@@ -44,38 +42,6 @@ public class ExpenditureTable {
                     + NAMES + " TEXT,"
                     + SPLIT_AMOUNTS + " TEXT"
                     + " );";
-
-    public static ArrayList<ExpenditureModel> getExpendituresFromDB(Context context) {
-        SQLiteDatabase database = MyDatabase.getInstance(context).getReadableDatabase();
-        ArrayList<ExpenditureModel> expenditures = new ArrayList<>();
-        Cursor c = database.query(
-                true,
-                TABLE_NAME,
-                COLUMNS,
-                null,
-                null,
-                null,
-                null, null, null
-        );
-        while (c.moveToNext()) {
-            expenditures.add(new ExpenditureModel(
-                    c.getInt(c.getColumnIndexOrThrow(ID)),
-                    c.getString(c.getColumnIndexOrThrow(BATCH_NAME)),
-                    c.getString(c.getColumnIndexOrThrow(DESCRIPTION)),
-                    c.getString(c.getColumnIndexOrThrow(TYPE)),
-                    c.getDouble(c.getColumnIndexOrThrow(AMOUNT)),
-                    c.getString(c.getColumnIndexOrThrow(AMOUNT_UNIT)),
-                    c.getString(c.getColumnIndexOrThrow(DATE)),
-                    c.getInt(c.getColumnIndexOrThrow(SPLIT)),
-                    c.getString(c.getColumnIndexOrThrow(NOTES)),
-                    c.getString(c.getColumnIndexOrThrow(NAMES)),
-                    c.getString(c.getColumnIndexOrThrow(SPLIT_AMOUNTS))
-            ));
-        }
-        c.close();
-        database.close();
-        return expenditures;
-    }
 
     public static int deleteExpenditureById(Context context, int id) {
         SQLiteDatabase database = MyDatabase.getInstance(context).getWritableDatabase();
@@ -96,7 +62,6 @@ public class ExpenditureTable {
     public static long addExpenditureInDB(Context context, ExpenditureModel expenditureModel) {
         SQLiteDatabase database = MyDatabase.getInstance(context).getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(BATCH_NAME, expenditureModel.getBatchName());
         cv.put(DESCRIPTION, expenditureModel.getDescription());
         cv.put(TYPE, expenditureModel.getType());
         cv.put(AMOUNT, expenditureModel.getAmountRecord());
@@ -111,22 +76,19 @@ public class ExpenditureTable {
         return result;
     }
 
-    public static ArrayList<ExpenditureModel> getExpendituresByBatch(Context context, String batchName) {
+    public static ArrayList<ExpenditureModel> getExpenditures(Context context) {
         SQLiteDatabase database = MyDatabase.getInstance(context).getReadableDatabase();
         Cursor c = database.query(
                 true,
                 ExpenditureTable.TABLE_NAME,
                 ExpenditureTable.COLUMNS,
-                BATCH_NAME + " = ?",
-                new String[]{batchName},
-                null, null, null, null
+                null, null, null, null, null, null
         );
 
         ArrayList<ExpenditureModel> expenditures = new ArrayList<>();
         while (c.moveToNext()) {
             expenditures.add(new ExpenditureModel(
                     c.getInt(c.getColumnIndexOrThrow(ID)),
-                    c.getString(c.getColumnIndexOrThrow(BATCH_NAME)),
                     c.getString(c.getColumnIndexOrThrow(DESCRIPTION)),
                     c.getString(c.getColumnIndexOrThrow(TYPE)),
                     c.getDouble(c.getColumnIndexOrThrow(AMOUNT)),
@@ -159,7 +121,6 @@ public class ExpenditureTable {
         while (c.moveToNext()) {
             expenditures.add(new ExpenditureModel(
                     c.getInt(c.getColumnIndexOrThrow(ID)),
-                    c.getString(c.getColumnIndexOrThrow(BATCH_NAME)),
                     c.getString(c.getColumnIndexOrThrow(DESCRIPTION)),
                     c.getString(c.getColumnIndexOrThrow(TYPE)),
                     c.getDouble(c.getColumnIndexOrThrow(AMOUNT)),
@@ -179,7 +140,6 @@ public class ExpenditureTable {
     public static long updateExpenditureInDB(Context context, ExpenditureModel expenditureModel, int id) {
         SQLiteDatabase database = MyDatabase.getInstance(context).getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(BATCH_NAME, expenditureModel.getBatchName());
         cv.put(DESCRIPTION, expenditureModel.getDescription());
         cv.put(TYPE, expenditureModel.getType());
         cv.put(AMOUNT, expenditureModel.getAmountRecord());

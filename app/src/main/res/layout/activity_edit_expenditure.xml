@@ -57,18 +57,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/names"/>-->
+    <ListView
+        android:id="@+id/edit_notes_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_amount">
+    </ListView>
     <Button
         android:id="@+id/edit_expenditure_positive"
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_amount"/>
+        android:layout_below="@id/edit_notes_list_view"/>
     <Button
         android:id="@+id/edit_expenditure_negative"
         android:text="Cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/edit_amount"
+        android:layout_below="@id/edit_notes_list_view"
         android:layout_toRightOf="@id/edit_expenditure_positive"/>
 
 </RelativeLayout>

@@ -25,11 +25,13 @@
     <string name="hint_amount">Amount</string>
 
 
-
-
     <string-array name="currency_type">
         <item>Rupees</item>
         <item>Dollars</item>
         <item>Pounds</item>
     </string-array>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

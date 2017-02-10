@@ -90,12 +90,10 @@ public class StudentNamesList extends AppCompatActivity implements Constants{
 
         SubActionButton buttonAddStudent = itemBuilder.setContentView(itemIconOne).setLayoutParams(new FrameLayout.LayoutParams(150, 150)).build();
         SubActionButton buttonViewInterest = itemBuilder.setContentView(itemIconTwo).setLayoutParams(new FrameLayout.LayoutParams(150, 150)).build();
-        SubActionButton buttonManageExpenditure = itemBuilder.setContentView(itemIconThree).setLayoutParams(new FrameLayout.LayoutParams(150, 150)).build();
 
         FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
                 .addSubActionView(buttonAddStudent)
                 .addSubActionView(buttonViewInterest)
-                .addSubActionView(buttonManageExpenditure)
                 .attachTo(actionButton)
                 .build();
 
@@ -160,16 +158,6 @@ public class StudentNamesList extends AppCompatActivity implements Constants{
                 intent1.putExtra("UserNames", UserNames);
                 startActivity(intent1);
 
-            }
-        });
-
-        buttonManageExpenditure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(StudentNamesList.this, ExpenditureManagement.class);
-                intent.putExtra(INTENT_BATCH_NAME, batchName);
-                startActivity(intent);
             }
         });
     }
